@@ -30,6 +30,8 @@ function App() {
         console.log(data.Search);
       } catch (error) {
         console.error("Error fetching movie data:", error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -48,7 +50,8 @@ function App() {
       </nav>
       <main className="search-watch-list-container">
         <section className="list-component-containers">
-          <SearchMovieList movieData={movieData} />
+          {isLoading && <div>Loading...</div>}
+          {!isLoading && <SearchMovieList movieData={movieData} />}
         </section>
         <section className="list-component-containers">
           <WatchedMoviesList />
