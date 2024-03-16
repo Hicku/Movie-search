@@ -5,7 +5,7 @@ import SearchedMovie from "../searched-movie/SearchedMovie";
 export default function SearchMovieList({ movieData }) {
   return (
     <div className="search-movie-list-container">
-      {movieData.map((movie) => (
+      {movieData?.map((movie) => (
         <card>
           <SearchedMovie movie={movie} />
         </card>

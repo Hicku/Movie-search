@@ -8,9 +8,11 @@ function App() {
   const key = "c74dc12b";
   const [searchedMovie, setSearchedMovie] = useState("");
   const [movieData, setMovieData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getSearchedMovie = async function () {
+      setIsLoading(true);
       try {
         const res = await fetch(
           `http://www.omdbapi.com/?apikey=${key}&s=${searchedMovie}`
@@ -21,6 +23,9 @@ function App() {
         }
 
         const data = await res.json();
+
+        if (data.Response === "false") throw new Error("Movie not found");
+
         setMovieData(data.Search);
         console.log(data.Search);
       } catch (error) {
