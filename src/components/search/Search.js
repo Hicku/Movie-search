@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function Search() {
+export default function Search({ searchedMovie, setSearchedMovie }) {
   return (
     <main>
       <form>
-        <input type="text"></input>
+        <input
+          value={searchedMovie}
+          onChange={(e) => setSearchedMovie(e.target.value)}
+          type="text"
+        ></input>
       </form>
     </main>
   );

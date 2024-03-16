@@ -1,17 +1,49 @@
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Nav from "./components/nav/Nav";
 import SearchMovieList from "./components/search-movie-list/SearchMovieList";
 import WatchedMoviesList from "./components/watched-movies-list/WatchedMoviesList";
 
 function App() {
+  const key = "c74dc12b";
+  const [searchedMovie, setSearchedMovie] = useState("");
+  const [movieData, setMovieData] = useState([]);
+
+  useEffect(() => {
+    const getSearchedMovie = async function () {
+      try {
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${key}&s=${searchedMovie}`
+        );
+
+        if (!res.ok) {
+          throw new Error("Something went wrong");
+        }
+
+        const data = await res.json();
+        setMovieData(data.Search);
+        console.log(data.Search);
+      } catch (error) {
+        console.error("Error fetching movie data:", error.message);
+      }
+    };
+
+    if (searchedMovie !== "") {
+      getSearchedMovie(searchedMovie);
+    }
+  }, [searchedMovie]);
+
   return (
     <div className="App">
       <nav>
-        <Nav />
+        <Nav
+          searchedMovie={searchedMovie}
+          setSearchedMovie={setSearchedMovie}
+        />
       </nav>
       <main className="search-watch-list-container">
         <section className="list-component-containers">
-          <SearchMovieList />
+          <SearchMovieList movieData={movieData} />
         </section>
         <section className="list-component-containers">
           <WatchedMoviesList />
